@@ -47,8 +47,8 @@ module Fluent
     end
 
     def emit_proc_count
-      begin
-        @processes.each do |process_spec|
+      @processes.each do |process_spec|
+        begin
           records = get_processes(process_spec)
           if process_spec.proc_count != records.size
             router.emit(
@@ -62,9 +62,9 @@ module Fluent
               }
             )
           end
+        rescue => e
+          log.error e
         end
-      rescue => e
-        log.error e
       end
     end
 
