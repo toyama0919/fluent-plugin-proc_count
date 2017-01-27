@@ -1,3 +1,4 @@
+require 'fluent/input'
 require 'sys/proctable'
 require 'ostruct'
 
