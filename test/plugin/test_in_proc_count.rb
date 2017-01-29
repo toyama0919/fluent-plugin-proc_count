@@ -5,7 +5,17 @@ class ProcCountInputTest < Test::Unit::TestCase
     Fluent::Test.setup
   end
 
-  def create_driver(conf)
+  CONFIG = %q{
+    interval 60s
+
+    <process>
+      tag proc_count.test
+      regexp foobarbuzz
+      proc_count 0
+    </process>
+    }
+
+  def create_driver(conf = CONFIG)
     Fluent::Test::InputTestDriver.new(Fluent::ProcCountInput).configure(conf)
   end
 
@@ -23,12 +33,22 @@ class ProcCountInputTest < Test::Unit::TestCase
         tag proc_count.embulk
         regexp embulk
         proc_count 1
+        operator_name less_than
       </process>
     }
 
-    assert_equal 'test', d.instance.tag
-    assert_equal 10 * 60, d.instance.interval
-    assert_equal 'hoge', d.instance.instance_variable_get(:@hoge)
+    assert_equal 60, d.instance.interval
+
+    process_conf1 =  d.instance.processes.first
+    assert_equal 'proc_count.fluentd', process_conf1.tag
+    assert_equal 'bin/fluentd', process_conf1.regexp.match('bin/fluentd -c')[0]
+    assert_equal 'equal', process_conf1.operator_name
+    assert_equal '==', process_conf1.operator
+
+    process_conf2 =  d.instance.processes.last
+    assert_equal 'proc_count.embulk', process_conf2.tag
+    assert_equal 'less_than', process_conf2.operator_name
+    assert_equal '<', process_conf2.operator
   end
 
   def test_configure_error_when_config_is_empty
@@ -45,8 +65,7 @@ class ProcCountInputTest < Test::Unit::TestCase
     end
 
     emits = d.emits
-    assert_equal true, emits.length > 0
-    assert_equal "tag1", emits[0].first
-    assert_equal ({"k1"=>"ok"}), emits[0].last
+    assert_equal true, emits.length.zero?
+    assert_equal true, emits[0].nil?
   end
 end
