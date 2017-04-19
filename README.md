@@ -1,4 +1,6 @@
 # fluent-plugin-proc_count
+[![Gem Version](https://badge.fury.io/rb/fluent-plugin-proc_count.svg)](http://badge.fury.io/rb/fluent-plugin-proc_count)
+[![Build Status](https://secure.travis-ci.org/toyama0919/fluent-plugin-proc_count.png?branch=master)](http://travis-ci.org/toyama0919/fluent-plugin-proc_count)
 
 process count check plugin for fluentd
 
