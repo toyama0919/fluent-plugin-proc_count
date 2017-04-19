@@ -8,7 +8,6 @@ rvm:
   - 2.4.1
 os:
   - linux
-  - osx
 
 gemfile:
   - Gemfile
