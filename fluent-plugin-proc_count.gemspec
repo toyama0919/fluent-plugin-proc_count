@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name          = "fluent-plugin-proc_count"
-  gem.version       = "0.0.1"
+  gem.version       = "0.0.2"
   gem.summary       = %q{process count check plugin for fluentd.}
   gem.description   = %q{process count check plugin for fluentd.}
   gem.license       = "MIT"
